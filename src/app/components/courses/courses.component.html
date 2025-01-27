@@ -1,0 +1,99 @@
+<div>
+    <div class="button-container">
+        <div class="actions">
+            <p-toast/>
+            <p-button type="button" (click)="getAllCourses()">Get All Courses</p-button>
+        </div>
+        <div class="actions">
+            <p-button type="button" (click)="addCourse()">Add Course</p-button>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="table-container" *ngIf="courses && courses.length > 0">
+        <table class="leave-table">
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Course Id</th>
+              <th>Course Name</th>
+              <th>Standard</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let course of courses; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ course.courseId }}</td>
+              <td>{{ course.courseName }}</td>
+              <td>{{ course.standard }}</td>
+              <td>
+                <p-toast/>
+                <button type="button" (click)="deleteCourse(course.courseId)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                      </svg>
+                    </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal" [class.show]="isModalOpen" (click)="closeAddUserModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Type -->
+        <div class="form-group">
+          <label for="courseName" class="form-label">Course Name</label>
+          <input
+            id="courseName"
+            type="text"
+            formControlName="courseName"
+            class="form-control"
+            placeholder="Enter Course Name"
+          />
+          <div *ngIf="form.get('courseName')?.invalid && form.get('courseName')?.touched" class="error-message">
+            <small *ngIf="form.get('courseName')?.hasError('required')">Course Name is required.</small>
+            <small *ngIf="form.get('courseName')?.hasError('minlength')">Course Name must be at least 4 characters long.</small>
+          </div>
+        </div>
+      
+        
+        <!-- description -->
+        <div class="form-group">
+          <label for="standard" class="form-label">Standard</label>
+          <input
+            id="standard"
+            type="text"
+            formControlName="standard"
+            class="form-control"
+            placeholder="Enter Standard"
+            required
+          />
+          <div *ngIf="form.get('standard')?.invalid && form.get('standard')?.touched" class="error-message">
+            <small *ngIf="form.get('standard')?.hasError('required')">Standard is required.</small>
+          </div>
+        </div>
+
+        <div class="form-group form-actions">
+            <button 
+                type="submit" 
+                class="btn btn-primary" 
+                [disabled]="form.invalid">
+                Add
+            </button>
+            <button 
+                type="button" 
+                class="btn btn-close" 
+                (click)="closeAddUserModal()">
+                ✕
+            </button>
+        </div>
+      </form>
+</div>

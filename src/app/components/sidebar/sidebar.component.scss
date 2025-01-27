@@ -1,0 +1,42 @@
+
+
+/* Sidebar styling */
+.admin-sidebar {
+    width: 210px; /* Reduced from 250px to 200px */
+    background-color: #3a7979;
+    color: rgb(56, 52, 52);
+    padding: 10px;
+    position: relative;
+    height: calc(84.6vh - 0px); /* Full height minus the header */
+  }
+
+  .admin-title{
+    color: #333333;
+    // font-size: 1.5rem;
+    margin-bottom: 30px;
+    
+  }
+  
+  .admin-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .admin-menu-item {
+    margin: 15px 0;
+  }
+  
+  .admin-menu-link {
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .admin-menu-link:hover {
+    background-color: #34495e;
+  }
+  

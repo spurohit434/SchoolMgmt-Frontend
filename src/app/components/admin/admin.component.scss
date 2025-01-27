@@ -1,0 +1,85 @@
+.admin-container {
+    display: flex;
+    padding-top: 0px; /* Push content below the fixed header */
+    min-height: 70vh; /* Full height */
+  }
+  
+  /* Sidebar styling */
+  .admin-sidebar {
+
+    width: 250px;
+    background-color: #3a7979;
+    color: rgb(56, 52, 52);
+    padding: 20px;
+    position: relative;
+    // top: 150px; /* Make sure sidebar starts below the fixed header */
+    height: calc(100vh - 0px); /* Full height minus the header */
+  }
+  
+  .admin-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .admin-menu-item {
+    margin: 15px 0;
+
+  }
+  
+  .admin-menu-link {
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .admin-menu-link:hover {
+    background-color: #34495e;
+  }
+  
+  /* Main content styling */
+  .admin-content {
+    margin-left: 100px; /* Offset content from the sidebar */
+    padding: 0px;
+    background-color: #ecf0f1;
+    width: calc(100% - 100px); /* Content width adjusted */
+    min-height: 70vh; /* Ensure the content area is full-height */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      width: 200px;
+    }
+  
+    .admin-content {
+      margin-left: 200px;
+      width: calc(100% - 200px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .admin-sidebar {
+      width: 150px;
+    }
+  
+    .admin-content {
+      margin-left: 150px;
+      width: calc(100% - 150px);
+    }
+  }
+
+  .logo-img {
+    width: 30px; /* Adjust the width as needed */
+    height: auto; /* Maintain the aspect ratio */
+    max-width: 100%; /* Ensure the image does not exceed its container */
+    display: inline-block;
+  }
+  
+
+
+
+  

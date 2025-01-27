@@ -1,0 +1,32 @@
+<div class="min-h-screen surface-ground">
+  <app-header/>
+  <div class="flex">
+    <div class="w-18rem">
+      <app-sidebar/>
+    </div>
+    <div class="p-4 w-full">
+      <router-outlet/>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="min-h-screen surface-ground">
+  <app-header></app-header>
+  <div class="flex">
+    <div class="w-18rem">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="p-4 w-full">
+      <ng-container *ngIf="hasContent; else fallbackContent">
+        <router-outlet (activate)="onActivate()" (deactivate)="onDeactivate()"></router-outlet>
+      </ng-container>
+      <ng-template #fallbackContent>
+        <div class="fallback">
+          <h1>Welcome to the Home Page</h1>
+          <p>Select a menu option to get started.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div> -->

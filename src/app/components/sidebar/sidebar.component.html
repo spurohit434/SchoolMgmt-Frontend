@@ -1,0 +1,14 @@
+<div class="admin-sidebar">
+    <div class="admin-menu">
+      <div class="admin-menu-list">
+        <div>
+          <h4 class="admin-title">Admin Console</h4>
+        </div>
+        <div *ngFor="let item of menuItems" class="admin-menu-item">
+          <a [routerLink]="[item.link]" [queryParamsHandling]="'merge'" class="admin-menu-link p-button p-button-text">
+            {{ item.label }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>

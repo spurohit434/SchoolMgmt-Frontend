@@ -1,0 +1,180 @@
+.table-container {
+    padding: 20px;
+    overflow-x: auto;
+   }
+   
+   .leave-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   }
+   
+   .leave-table thead {
+    background-color: #3a7979;
+    color: #fff;
+   }
+   
+   .leave-table th,
+   .leave-table td {
+    text-align: left;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+   }
+   
+   .leave-table tr:not(thead tr):hover {
+    background-color: #f9f9f9;
+   }
+   
+   .leave-table th {
+    font-weight: bold;
+    text-transform: uppercase;
+   }
+   
+   .leave-table td {
+    vertical-align: middle;
+   }
+   
+   .leave-table button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s;
+   }
+   
+   .leave-table button:hover {
+    transform: scale(1.2);
+   }
+   
+   .leave-table button svg {
+    color: #3a7979;
+   }
+   
+   .leave-table button:hover svg {
+    color: #2a5959;
+   }
+
+
+   .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+  
+.modal.show {
+    display: block;
+}
+  
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #3a7979;
+    color: white;
+}
+
+.btn-primary:disabled {
+    background-color: #a0c4c4;
+    cursor: not-allowed;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #2a5959;
+}
+
+.btn-close {
+    background-color: #f44336;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 50%;
+}
+
+.btn-close:hover {
+    background-color: #d32f2f;
+}
+
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .action {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .actions {
+    display: inline-block;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: space-between; /* Distributes buttons evenly across the container */
+    gap: 15px; /* Adds spacing between buttons */
+  }

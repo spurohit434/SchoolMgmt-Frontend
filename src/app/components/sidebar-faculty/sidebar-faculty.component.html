@@ -1,0 +1,15 @@
+<div class="faculty-sidebar">
+    <div class="faculty-menu">
+      <div class="faculty-menu-list">
+        <div>
+          <h4 class="faculty-title">Faculty Console</h4>
+        </div>
+        <div *ngFor="let item of menuItems" class="faculty-menu-item">
+          <a [routerLink]="[item.link]" [queryParamsHandling]="'merge'" class="faculty-menu-link p-button p-button-text">
+            {{ item.label }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  

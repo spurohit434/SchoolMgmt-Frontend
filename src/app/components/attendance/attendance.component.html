@@ -1,0 +1,159 @@
+<div>
+    <div class="button-container">
+        <div class="actions">
+            <p-button type="button" (click)="getAllUsers()">Add Attendance</p-button>
+        </div>
+        <div class="actions">
+            <p-button type="button" (click)="openAttendanceModal()">View Attendance</p-button>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="table-container" *ngIf="users && users.length > 0">
+        <table class="leave-table">
+        <thead>
+            <tr>
+            <th>Index</th>
+            <th>Name</th>
+            <th>User Name</th>
+            <th>Role</th>
+            <th>Add attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <p-toast/>
+                <button type="button" (click)="openModal(user.userId, user.standard)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-check-fill" viewBox="0 0 16 16">
+                        <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+                        <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686"/>
+                    </svg>
+                    </button>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <div class="table-container" *ngIf="standardUsers && standardUsers.length > 0">
+        <table class="leave-table">
+        <thead>
+            <tr>
+            <th>Index</th>
+            <th>Student Id</th>
+            <th>Standard</th>
+            <th>Date</th>
+            <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of standardUsers; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.studentId }}</td>
+            <td>{{ user.standard }}</td>
+            <td *ngIf="user.status == 'P'">Present</td>
+            <td *ngIf="user.status != 'P'">Absent</td>
+            <td>{{ user.date | date }}</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <div class="attendance" [class.show]="isAttendanceModalOpen" (click)="closeAttendanceModal()">
+        <div class="attendance-content" (click)="$event.stopPropagation()">
+            <form [formGroup]="form1" (ngSubmit)="onSubmit1()">
+            <!-- Type -->
+            <div class="form1-group">
+                <label for="standard" class="form1-label">Standard</label>
+                <input
+                id="standard"
+                type="standard"
+                formControlName="standard"
+                class="form1-control"
+                placeholder="Enter standard"
+                required
+                />
+                <div *ngIf="form1.get('standard')?.invalid && form1.get('standard')?.touched" class="error-message">
+                <small *ngIf="form1.get('standard')?.hasError('required')">Standard is required.</small>
+                </div>
+            </div>
+
+            <div class="form1-group form1-actions">
+                <button 
+                    type="submit" 
+                    class="btn1 btn1-primary" 
+                    [disabled]="form1.invalid">
+                    Add
+                </button>
+                <button 
+                    type="button" 
+                    class="btn1 btn1-close" 
+                    (click)="closeAttendanceModal()">
+                    ✕
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <div class="modal" [class.show]="isModalOpen" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <!-- Type -->
+            <div class="form-group">
+                <label for="date" class="form-label">Date</label>
+                <input
+                id="date"
+                type="date"
+                formControlName="date"
+                class="form-control"
+                placeholder="Enter date"
+                required
+                />
+                <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched" class="error-message">
+                <small *ngIf="form.get('date')?.hasError('required')">Date is required.</small>
+                </div>
+            </div>
+        
+            
+            <!-- Role -->
+        <div class="form-group">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" formControlName="status" class="form-control" required>
+            <option value="P">Present</option>
+            <option value="A">Absent</option>
+            </select>
+            <div *ngIf="form.get('status')?.invalid && form.get('status')?.touched" class="error-message">
+            <small *ngIf="form.get('status')?.hasError('required')">Status is required.</small>
+            </div>
+        </div>
+
+            <div class="form-group form-actions">
+                <button 
+                    type="submit" 
+                    class="btn btn-primary" 
+                    [disabled]="form.invalid">
+                    Add
+                </button>
+                <button 
+                    type="button" 
+                    class="btn btn-close" 
+                    (click)="closeModal()">
+                    ✕
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+

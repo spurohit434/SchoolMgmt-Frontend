@@ -1,0 +1,60 @@
+<div>
+   
+    <div class="button-container">
+      <div class="actions">
+        <p-toast/>
+          <p-button type="button" (click)="checkFee()">Check Fees</p-button>
+        </div>
+        <div class="actions">
+          <p-button type="button" (click)="viewTransaction()">Transactions</p-button>
+        </div>
+    </div>
+
+
+    <div class="modal" [ngClass]="{ show: isModalOpen }" (onclick)="closeFeeModal()">
+        <table class="fee-table">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <td>{{StudentFee.name}}</td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td>{{StudentFee.username}}</td>
+                </tr>
+                <tr>
+                    <th>Standard</th>
+                    <td>{{user.standard}}</td>
+                </tr>
+                <tr>
+                    <th>Fee Amount</th>
+                    <td>{{StudentFee.feeAmount | currency: 'INR'}}</td>
+                </tr>
+                <tr>
+                    <th>Deadline</th>
+                    @if (StudentFee.feeAmount > 0) {
+                        <td>{{StudentFee.deadline | date:'shortDate'}}</td>
+                    }
+                    @else{
+                        <td>Null</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Fine</th>
+                    <td>{{StudentFee.fine | currency: 'INR'}}</td>
+                </tr>
+            </tbody>
+            <div class="table-button-container">
+                <div class="table-actions">
+                    <p-button type="button" (click)="closeFeeModal()">
+                        Close
+                    </p-button>
+                  </div>
+                  <div class="table-actions">
+                    <p-toast/>
+                    <p-button type="button" (click)="payFee()">Payment</p-button>
+                  </div>
+              </div>
+        </table>
+    </div>
+</div>   

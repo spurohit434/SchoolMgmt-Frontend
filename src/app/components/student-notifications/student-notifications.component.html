@@ -1,0 +1,29 @@
+<div>
+    <div class="button-container">
+        <div class="actions">
+            <p-toast/>
+            <p-button type="button" (click)="readNotifications()">Read Notification</p-button>
+        </div>
+    </div>
+    
+    <div class="table-container" *ngIf="notificationModel && notificationModel.length > 0">
+        <table class="notification-table">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Date</th>
+                    <th>Notification Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let notification of notificationModel; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ notification.dateIssued | date }}</td>
+                    <td>{{ notification.type }}</td>
+                    <td>{{ notification.description }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

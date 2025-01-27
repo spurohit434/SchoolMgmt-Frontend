@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/primeflex/primeflex.css';
+@import '../node_modules/primeflex/themes/primeone-light.css';
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/primeflex/primeflex.css";
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(250, 250, 250, 0.75);
+    color: #333;
+    background: url('/assets/images/SchoolBG2.jpg') no-repeat center center fixed ;
+    background-size: cover;
+    position:relative;
+  }
+  
+
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0); /* Adjust opacity here (0.7 for 70% opacity) */
+    z-index: -1; /* Keep it behind the content */
+  }

@@ -1,0 +1,149 @@
+<div>
+  <div class="button-container">
+    <div class="actions">
+        <p-button type="button" (click)="getAllUsers()">
+            Add Fees to Students
+        </p-button>
+      </div>
+      <div class="actions">
+        <p-button type="button" (click)="getAllDues()">
+            View Due Fees
+        </p-button>
+    </div>
+</div>
+
+
+    <div class="table-container" *ngIf="users && users.length > 0">
+        <table class="leave-table">
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Name</th>
+              <th>User Name</th>
+              <th>Role</th>
+              <th>Add Fee</th>
+              <th>Update Fee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.role }}</td>
+              <td>
+                <p-toast/>
+                <button type="button" (click)="addFee(user.userId, user.username, user.name)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"/>
+                      </svg>
+                    </button>
+              </td>
+              <td>
+                <p-toast/>
+                <button type="button" (click)="updateFee(user.userId, user.username, user.name)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                      </svg>
+                    </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <div class="table-container" *ngIf="DuesUsers && DuesUsers.length > 0">
+      <table class="leave-table">
+        <thead>
+          <tr>
+            <th>Index</th>
+            <th>Student Name</th>
+            <th>Username</th>
+            <th>Amount</th>
+            <th>Fine</th>
+            <th>Deadline</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of DuesUsers; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.username}}</td>
+            <td>{{ user.feeAmount | currency: 'INR' }}</td>
+            <td>{{ user.fine | currency: 'INR' }}</td>
+            <td>{{ user.deadline | date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+</div>
+
+    <div class="modal" [class.show]="isModalOpen" (click)="closeAddUserModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <!-- feeAmount -->
+            <div class="form-group">
+              <label for="feeAmount" class="form-label">FeeAmount</label>
+              <input
+                id="feeAmount"
+                type="number"
+                formControlName="feeAmount"
+                class="form-control"
+                placeholder="Enter feeAmount"
+                
+              />
+              <div *ngIf="form.get('feeAmount')?.invalid && form.get('feeAmount')?.touched" class="error-message">
+                <small *ngIf="form.get('feeAmount')?.hasError('required')">FeeAmount is required.</small>
+              </div>
+            </div>
+          
+            
+            <!-- Deadline -->
+            <div class="form-group">
+              <label for="deadline" class="form-label">Deadline</label>
+              <input
+                id="deadline"
+                type="date"
+                formControlName="deadline"
+                class="form-control"
+                placeholder="Enter Deadline"
+                required
+              />
+              <div *ngIf="form.get('deadline')?.invalid && form.get('deadline')?.touched" class="error-message">
+                <small *ngIf="form.get('deadline')?.hasError('required')">Deadline is required.</small>
+              </div>
+            </div>
+
+            <!-- fine -->
+            <div class="form-group">
+                <label for="fine" class="form-label">Fine</label>
+                <input
+                  id="fine"
+                  type="number"
+                  formControlName="fine"
+                  class="form-control"
+                  placeholder="Enter fine"
+                />
+                <div *ngIf="form.get('fine')?.invalid && form.get('fine')?.touched" class="error-message">
+                  <small *ngIf="form.get('fine')?.hasError('required')">fine is required.</small>
+                </div>
+              </div>
+    
+            <div class="form-group form-actions">
+                <button 
+                    type="submit" 
+                    class="btn btn-primary" 
+                    [disabled]="form.invalid">
+                    Send
+                </button>
+                <button 
+                    type="button" 
+                    class="btn btn-close" 
+                    (click)="closeAddUserModal()">
+                    ✕
+                </button>
+            </div>
+          </form>
+    </div>
+

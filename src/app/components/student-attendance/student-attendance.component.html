@@ -1,0 +1,28 @@
+<div>
+        <div class="actions">
+            <p-toast/>
+            <p-button type="button" (click)="viewAttendance()">View Attendance</p-button>
+        </div>
+</div>
+
+<div>
+    <div class="table-container" *ngIf="attendanceDetails && attendanceDetails.length > 0">
+        <table class="leave-table">
+        <thead>
+            <tr>
+            <th>Index</th>
+            <th>Date</th>
+            <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of attendanceDetails; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.date | date }}</td>
+            <td *ngIf="user.status == 'P'">Present</td>
+            <td *ngIf="user.status != 'P'">Absent</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>

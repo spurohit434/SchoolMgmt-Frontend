@@ -1,0 +1,39 @@
+.table-container {
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.notification-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-table thead {
+    background-color: #3a7979;
+    color: #fff;
+}
+
+.notification-table th,
+.notification-table td {
+    text-align: left;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-table tr:not(thead tr):hover {
+    background-color: #f9f9f9;
+}
+
+.notification-table th {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.notification-table td {
+    vertical-align: middle;
+}

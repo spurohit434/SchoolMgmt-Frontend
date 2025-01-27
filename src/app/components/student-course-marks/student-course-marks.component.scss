@@ -1,0 +1,12 @@
+.button-container {
+    display: flex; /* Arrange child elements horizontally */
+    gap: 50rem; /* Adds space between the buttons (adjust as needed) */
+    justify-content: center; /* Center-aligns the buttons horizontally */
+    margin-top: 1rem; /* Optional: Adds space above the button container */
+  }
+  
+  .actions {
+    display: flex; /* Keeps buttons aligned */
+    align-items: center; /* Vertically aligns content if needed */
+  }
+  

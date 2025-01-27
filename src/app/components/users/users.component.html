@@ -1,0 +1,285 @@
+<div>
+    <div class="button-container">
+        <div class="actions">
+            <p-button type="button" (click)="openAddUserModal()">Add User</p-button>
+        </div>
+        <div class="actions">
+            <p-toast />
+            <p-button type="button" (onClick)="show()"  (click)="getAllUsers()">Show All Users</p-button>
+        </div>
+    </div>
+    
+
+<div class="table-container" *ngIf="users && users.length > 0">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Index</th>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Role</th>
+          <th>Standard</th>
+          <th>MentorOf</th>
+          <th>Delete</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email}}</td>
+          <td>{{ user.gender }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.standard }}</td>
+          <td>{{ user.mentorOf }}</td>
+          <td>
+            <div>
+              <p-toast/>
+              <p-button type="button" (click)="confirmDelete(user.userId)" label="Delete" severity="danger" [outlined]="true" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                  <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                </svg>
+              </p-button>
+            </div>
+          </td>
+          <td>
+            <button type="button" (click)="onUpdateUser(user.userId)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+              </svg></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card flex justify-center">
+      <p-paginator
+        [first]="(page) * size"
+        [rows]="size"
+        [totalRecords]="totalElements"
+        (onPageChange)="onPageChange($event)"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" 
+      ></p-paginator>
+    </div>
+</div>
+
+
+<div>
+  <div class="confirm" [ngClass]="{'show': openDialog}" (click)="closeDialogModule()">
+    <div class="confirm-content" (click)="$event.stopPropagation()">
+      <p>You really want to delete this?</p>
+      <button type="button" (click)="onDeleteUser()">Yes</button>
+      <button type="button" (click)="closeDialogModule()">No</button>
+    </div>
+  </div>
+</div>
+  
+
+<div>
+  <div class="modal" [ngClass]="{'show': isModalOpen}" (click)="closeAddUserModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <label for="name" class="form-label">Name</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            class="form-control"
+            placeholder="Enter Name"
+            required
+          />
+          <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="error-message">
+            <small *ngIf="form.get('name')?.hasError('required')">Name is required.</small>
+            <small *ngIf="form.get('name')?.hasError('minlength')">Name must be at least 1 character long.</small>
+          </div>
+        </div>
+      
+        <!-- <div class="form-group">
+          <label for="dob" class="form-label">Date of Birth</label>
+          <input
+            id="dob"
+            type="date"
+            formControlName="dob"
+            class="form-control"
+          />
+          <div *ngIf="form.get('dob')?.invalid && form.get('dob')?.touched" class="error-message">
+            <small *ngIf="form.get('dob')?.hasError('required')">Date of Birth is required.</small>
+          </div>
+        </div> -->
+      
+        <!-- Contact Number -->
+        <div class="form-group">
+          <label for="contactNumber" class="form-label">Contact Number</label>
+          <input
+            id="contactNumber"
+            type="tel"
+            formControlName="contactNumber"
+            class="form-control"
+            placeholder="Enter Contact Number"
+          />
+        </div>
+      
+        <!-- Role -->
+        <div class="form-group">
+          <label for="role" class="form-label">Role</label>
+          <select id="role" formControlName="role" class="form-control" required>
+            <option>Student</option>
+            <option>Faculty</option>
+          </select>
+          <div *ngIf="form.get('role')?.invalid && form.get('role')?.touched" class="error-message">
+            <small *ngIf="form.get('role')?.hasError('required')">Role is required.</small>
+          </div>
+        </div>
+      
+        <!-- Username -->
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            class="form-control"
+            placeholder="Enter Username"
+            required
+          />
+          <div *ngIf="form.get('username')?.invalid && form.get('username')?.touched" class="error-message">
+            <small *ngIf="form.get('username')?.hasError('required')">Username is required.</small>
+            <small *ngIf="form.get('username')?.hasError('minlength')">Username must be at least 4 characters long.</small>
+          </div>
+        </div>
+      
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="Enter Password"
+            required
+          />
+          <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="error-message">
+            <small *ngIf="form.get('password')?.hasError('required')">Password is required.</small>
+          </div>
+        </div>
+      
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Enter Email"
+            required
+          />
+          <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="error-message">
+            <small *ngIf="form.get('email')?.hasError('required')">Email is required.</small>
+            <small *ngIf="form.get('email')?.hasError('email')">Invalid email format.</small>
+          </div>
+        </div>
+      
+        <!-- Age -->
+        <div class="form-group">
+          <label for="age" class="form-label">Age</label>
+          <input
+            id="age"
+            type="number"
+            formControlName="age"
+            class="form-control"
+            placeholder="Enter Age"
+            required
+          />
+          <div *ngIf="form.get('age')?.invalid && form.get('age')?.touched" class="error-message">
+            <small *ngIf="form.get('age')?.hasError('required')">Age is required.</small>
+            <small *ngIf="form.get('age')?.hasError('min')">Age must be at least 18.</small>
+            <small *ngIf="form.get('age')?.hasError('max')">Age must be less than 120.</small>
+          </div>
+        </div>
+      
+        <!-- Gender -->
+        <div class="form-group">
+          <label for="gender" class="form-label">Gender</label>
+          <select id="gender" formControlName="gender" class="form-control">
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
+        </div>
+      
+        <!-- Roll Number -->
+        <!-- <div class="form-group">
+          <label for="rollNo" class="form-label">Roll Number</label>
+          <input
+            id="rollNo"
+            type="text"
+            formControlName="rollNo"
+            class="form-control"
+            placeholder="Enter Roll Number"
+          />
+        </div> -->
+      
+        <!-- Mentor Of -->
+        <div class="form-group">
+          <label for="mentorOf" class="form-label">Mentor Of</label>
+          <input
+            id="mentorOf"
+            type="number"
+            formControlName="mentorOf"
+            class="form-control"
+            placeholder="Enter Mentor Of"
+          />
+        </div>
+      
+        <!-- Address -->
+        <div class="form-group">
+          <label for="address" class="form-label">Address</label>
+          <input
+            id="address"
+            type="text"
+            formControlName="address"
+            class="form-control"
+            placeholder="Enter Address"
+            required
+          />
+          <div *ngIf="form.get('address')?.invalid && form.get('address')?.touched" class="error-message">
+            <small *ngIf="form.get('address')?.hasError('required')">Address is required.</small>
+          </div>
+        </div>
+      
+        <!-- Standard -->
+        <div class="form-group">
+          <label for="standard" class="form-label">Standard</label>
+          <input
+            id="standard"
+            type="number"
+            formControlName="standard"
+            class="form-control"
+            placeholder="Enter Standard"
+            required
+          />
+          <div *ngIf="form.get('standard')?.invalid && form.get('standard')?.touched" class="error-message">
+            <small *ngIf="form.get('standard')?.hasError('required')">Standard is required.</small>
+          </div>
+        </div>
+      
+        <!-- Submit Button -->
+        <div class="form-group" >
+            <div>
+                <p-toast/>
+                <p-button type="submit" [disabled]="form.invalid" >Add User</p-button>
+            </div>
+           
+          <button type="button" class="close-btn" (click)="closeAddUserModal()">X</button>
+        </div>
+      </form>
+      </div>
+</div>
