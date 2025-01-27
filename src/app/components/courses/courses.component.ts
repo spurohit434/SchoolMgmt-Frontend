@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
@@ -16,9 +16,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './courses.component.scss',
   providers: [MessageService]
 })
-export class CoursesComponent {
+export class CoursesComponent implements OnInit {
 
   constructor(private messageService: MessageService, private courseService: CourseService) { }
+  ngOnInit(): void {
+    this.getAllCourses();
+  }
 
   form = new FormGroup({
     courseName: new FormControl('', Validators.required),

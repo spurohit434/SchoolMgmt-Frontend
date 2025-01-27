@@ -7,9 +7,9 @@ export const AuthGuard: CanActivateFn = (route, state) => {
   const authService: AuthService = inject(AuthService);
   const router: Router = inject(Router);
 
-  if (authService.role$() === Role.admin){
+  if (authService.role$() === Role.admin  || authService.role$() === Role.student || authService.role$() == Role.faculty){
     return true;
   }else{
-    return router.navigate(['Home']).then(() => false);
+    return router.navigate(['login']).then(() => false);
   }
 };

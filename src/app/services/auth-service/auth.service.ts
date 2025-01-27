@@ -35,19 +35,14 @@ export class AuthService{
 
   hasValidToken(): boolean {
     const token = localStorage.getItem('authToken');
-
     if (!token) {
       return false;
     }
-
     try {
       const decodedToken: { exp: number } = jwtDecode(token);
       const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-
-      // Check if the token has expired
       return decodedToken.exp > currentTime;
     } catch (error) {
-      // In case of any error (invalid token format, decoding issues), treat it as invalid
       return false;
     }
   }

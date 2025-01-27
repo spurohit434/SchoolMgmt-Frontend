@@ -16,3 +16,11 @@ export type CourseMarks = {
     marks: number;
     standard: number;
 }
+
+export type UpdatedCourseMarks = {
+    courseId: string;
+    courseName: string;
+    userId: string;
+    marks: number;
+    standard: number;
+}

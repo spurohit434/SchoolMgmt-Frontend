@@ -28,17 +28,25 @@
         Username is required.
       </small>
     </div>
-  
-    <div class="p-field">
+
+    <div class="p-field password-container">
       <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        pPassword
-        formControlName="password"
-        class="p-password p-component"
-        placeholder="Enter your password"
-      />
+      <div class="password-wrapper">
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          pPassword
+          formControlName="password"
+          class="p-password p-component"
+          placeholder="Enter your password"
+        />
+        <i
+          class="pi"
+          [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"
+          (click)="togglePasswordVisibility()"
+          title="Toggle Password Visibility"
+        ></i>
+      </div>
       <small *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="p-error">
         Password is required.
       </small>

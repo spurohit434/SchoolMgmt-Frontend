@@ -4,17 +4,22 @@ import { Router } from '@angular/router';
 import {AuthService} from '../../services/auth-service/auth.service';
 import { LoggedResponse, LoginResponse } from '../../models/auth.model';
 import { jwtDecode } from 'jwt-decode';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import {ButtonModule} from 'primeng/button';
 import { HeaderComponent } from "../header/header.component";
+import { MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { PasswordModule } from 'primeng/password';
  
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, NgIf, ButtonModule],
+  imports: [ReactiveFormsModule, NgIf, ButtonModule, FloatLabelModule, PasswordModule, NgClass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  standalone: true
+  standalone: true,
+  providers: [MessageService]  // Injecting MessageService to display error messages in the component.  This service is provided in the AppModule.  It can be injected in any component that needs to display error messages.  In this case, we are injecting it in the LoginComponent.  The MessageService provides methods for displaying messages (success, info, warn, error) to the user.  The messages will be displayed on the page where the MessageService is injected.
 })
 export class LoginComponent {
 
@@ -23,7 +28,13 @@ export class LoginComponent {
     password: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
   });
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private messageService: MessageService) {
+  }
+
+  showPassword: boolean = false;
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
     onSubmit(): void{
@@ -50,9 +61,8 @@ export class LoginComponent {
             this.router.navigate(['faculty/home']);
           }
         },
-        error: (error) => {
-          console.error('Error:', error);
-          alert('Invalid credentials');
+        error: (error: HttpErrorResponse) => {
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Invalid Credentials'});
         },
       },
       );
