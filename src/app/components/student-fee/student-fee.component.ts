@@ -24,7 +24,7 @@ import { Toast } from 'primeng/toast';
 export class StudentFeeComponent {
 
 viewTransaction() {
-throw new Error('Method not implemented.');
+ throw new Error('Method not implemented.');
 }
   constructor(private feeService: FeeService, private messageService: MessageService, private userService: UserService) {
   }

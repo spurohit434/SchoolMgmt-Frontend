@@ -63,6 +63,7 @@ body {
     flex-direction: column;
     gap: 10px;
     margin-top: 10px;
+    margin-left: 20px;
   }
   
   .action {
@@ -137,7 +138,7 @@ body {
   .actions {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 1px;
   }
   
   /* Button Styles */
@@ -183,7 +184,7 @@ body {
 .button-container {
     display: flex;
     justify-content: space-between; /* Distributes buttons evenly across the container */
-    gap: 15px; /* Adds spacing between buttons */
+    gap: 5px; /* Adds spacing between buttons */
   }
   
   .actions {
@@ -427,4 +428,31 @@ body {
 .confirm-content button:last-of-type {
     background-color: #f44336;
     color: white;
+}
+
+.search-input {
+  width: 100%; /* Full width */
+  max-width: 400px; /* Optional: limit the maximum width */
+  padding: 0.5rem; /* Add padding for better spacing */
+  font-size: 1rem; /* Adjust the font size */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 4px; /* Rounded corners */
+  outline: none; /* Remove default outline */
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+  margin-left: 1.7%;
+  margin-top: 1%;
+}
+
+.search-input:focus {
+  border-color: #007BFF; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a glow effect */
+}
+
+.search-input::placeholder {
+  color: #999; /* Placeholder text color */
+  font-style: italic; /* Placeholder text style */
+}
+
+.search-input:hover {
+  border-color: #888; /* Subtle hover effect */
 }

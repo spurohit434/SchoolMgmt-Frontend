@@ -8,7 +8,18 @@
         </div>
     </div>
 
-<div class="table-container" *ngIf="users && users.length > 0">
+
+    <input
+    id="searchUser"
+    type="text"
+    pInputText
+    [(ngModel)]="searchUserText"
+    [ngModelOptions]="{ standalone: true }"
+    (input)="filterUsers()"
+    placeholder="Search by Name"
+    class="search-input"
+  />    
+<div class="table-container" *ngIf="filteredUsers && filteredUsers.length > 0">
     <table class="leave-table">
       <thead>
         <tr>
@@ -20,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users; let i = index">
+        <tr *ngFor="let user of filteredUsers; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.username }}</td>

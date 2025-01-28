@@ -5,16 +5,19 @@ import { LeaveAppRej, LeaveDetails, LeaveResponse } from '../../models/leave.mod
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-leaves',
-  imports: [NgFor, NgIf, ToastModule, ButtonModule, DatePipe],
+  imports: [NgFor, NgIf, ToastModule, ButtonModule, DatePipe, FormsModule],
   templateUrl: './leaves.component.html',
   styleUrl: './leaves.component.scss',
   providers: [MessageService]
 })
 export class LeavesComponent implements OnInit  {
   leaves: LeaveDetails[] = [];
+  fileteredLeaves: LeaveDetails[] = [];
+  searchLeaveText: string = '';
 
   constructor(private leavesService: LeavesService, private messageService: MessageService){}
 
@@ -25,12 +28,17 @@ export class LeavesComponent implements OnInit  {
     this.leavesService.getAllLeaves().subscribe( (response: LeaveResponse) => {
       console.log(response) 
       this.leaves = response.data;
-      console.log(this.leaves);
-      console.log(response.data);
+      this.fileteredLeaves = [...this.leaves];
     },
     (error) => {
       console.error('Error fetching users:', error);
     }
+    );
+  }
+
+  filterLeaves() {
+    this.fileteredLeaves = this.leaves.filter((leave) =>
+      leave.name.toLowerCase().includes(this.searchLeaveText.toLowerCase())
     );
   }
 
@@ -66,9 +74,5 @@ export class LeavesComponent implements OnInit  {
       );
     }
   this.viewAllLeaves();
-  }
-
-  applyLeave(){
-
   }
 }

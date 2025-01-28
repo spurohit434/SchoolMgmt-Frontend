@@ -34,3 +34,12 @@ export type UserResponse = {
   status: string;
   data: any;
 }
+
+
+export type UpdateUser = {
+  name: string;
+  age: number;
+  address: string;
+  password?: string;
+  email: string;
+}

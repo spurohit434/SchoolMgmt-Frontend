@@ -28,7 +28,7 @@ export const routes: Routes = [
    {  
       path: 'user',
       component: UsersComponent,
-      canActivate: [LoginGuard] 
+     // canActivate: [LoginGuard] 
    },
    { 
       path: 'login', 
@@ -37,7 +37,7 @@ export const routes: Routes = [
    {  
       path: 'home', 
       component: HomeComponent,
-      canActivate: [LoginGuard]
+     // canActivate: [LoginGuard]
    },
    { 
       path: 'admin/home', 
@@ -111,7 +111,7 @@ export const routes: Routes = [
    },
    { 
       path: 'faculty/home', 
-     canActivate: [AuthGuard, LoginGuard],
+      canActivate: [AuthGuard, LoginGuard],
      component: FacultyComponent,
       children: [
          {

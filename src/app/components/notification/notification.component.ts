@@ -6,13 +6,13 @@ import { LoggedResponse, LoginResponse } from '../../models/auth.model';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '../../services/notification-service/notification.service';
 import { NotificationModel } from '../../models/notification.model';
 
 @Component({
   selector: 'app-notification',
-  imports: [NgFor, NgIf, ToastModule, ButtonModule, ReactiveFormsModule],
+  imports: [NgFor, NgIf, ToastModule, ButtonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss',
   providers: [MessageService]
@@ -28,7 +28,8 @@ export class NotificationComponent implements OnInit {
   loading: boolean = false;
   isModalOpen = false;  // Modal visibility state
   selectedUserId: string = '';
-
+  filteredUsers: UserDetails[] = [];
+  searchUserText: string = '';
   
   constructor(private userService: UserService, private notificationService: NotificationService, private messageService: MessageService){
   }
@@ -51,12 +52,19 @@ export class NotificationComponent implements OnInit {
         (response: LoginResponse) => {
           this.users = response.data.content; // Ensure you are assigning an array to this.users
           this.loading = false;
+          this.filteredUsers = [...this.users];
         },
         (error) => {
           console.error('Error fetching users:', error);
           this.loading = false;
         }
       );
+  }
+
+  filterUsers() {
+    this.filteredUsers = this.users.filter((user) =>
+      user.name.toLowerCase().includes(this.searchUserText.toLowerCase())
+    );
   }
 
   sendNotifications(userId: string) {

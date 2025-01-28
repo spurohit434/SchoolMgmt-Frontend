@@ -22,11 +22,12 @@ export class AuthService{
     private httpClient: HttpClient,
   ) {
     if (this.loggedIn$()) {
-     this.fetchAndStoreUserDetails();
+    // this.fetchAndStoreUserDetails();
     }
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
+    console.log("in service", username, password);
     return this.httpClient.post<LoginResponse>(`${BASE_URL}/authenticate`, {
       username: username,
       password: password,
@@ -47,7 +48,7 @@ export class AuthService{
     }
   }
 
-  private fetchAndStoreUserDetails() {
+    //private fetchAndStoreUserDetails() {
     // const userName: string = this.username$();   // Convert signal to string
     // this.httpClient
     //   .get<User>(`${BASE_URL}/users/${userName}`)
@@ -60,7 +61,7 @@ export class AuthService{
 
     //   )
     //   .subscribe();
-  }
+    // }
 
 }
 

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, NgModel } from '@angular/forms';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { formInput, UserDetails } from '../../models/user.model';
 import { UserService } from '../../services/user-service/user.service';
@@ -12,10 +12,11 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { Paginator, PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
-  imports: [ReactiveFormsModule, NgIf, NgFor, NgClass,DialogModule,ButtonModule, ToastModule, TableModule, ConfirmPopupModule, Paginator, PaginatorModule],
+  imports: [ReactiveFormsModule, NgIf, NgFor, NgClass,DialogModule,ButtonModule, ToastModule, TableModule, ConfirmPopupModule, Paginator, PaginatorModule, FormsModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
   standalone: true,
@@ -32,6 +33,8 @@ export class UsersComponent implements OnInit {
   totalPages: number = 5;
   userId: string = '';
   openDialog: boolean = false;
+  filteredUsers: UserDetails[] = [];
+  searchUserText: string = '';
 
   constructor(private userService: UserService, private messageService: MessageService,private confirmationService: ConfirmationService) {
   }
@@ -40,7 +43,6 @@ export class UsersComponent implements OnInit {
   }
 
   onPageChange(event: PaginatorState): void {
-    console.log(event);
     this.page = event.page! + 1;
     this.getAllUsers();
   }
@@ -77,14 +79,15 @@ export class UsersComponent implements OnInit {
       this.isModalOpen = false;
     }
 
+
   getAllUsers() {
     this.loading = true;
     console.log(this.page, this.size);
-
     this.userService.getAllUsers1(this.page, this.size).subscribe({
       next: (response: LoginResponse) => {
         this.users = response.data.content; // Ensure you are assigning an array to this.users
         this.loading = false;
+        this.filteredUsers = [...this.users];
       },
       error: (error: LoginResponse) => {
         console.error('Error fetching users:', error);
@@ -156,5 +159,12 @@ export class UsersComponent implements OnInit {
       this.messageService.add({ severity: 'Failure', summary: 'Failure', detail: 'Form Invalid' });
       console.log('Form is invalid');
     }
+  }
+
+
+  filterUsers() {
+    this.filteredUsers = this.users.filter((user) =>
+      user.name.toLowerCase().includes(this.searchUserText.toLowerCase())
+    );
   }
 }

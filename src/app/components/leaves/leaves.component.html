@@ -8,7 +8,17 @@
         </div>
     </div>
 
-    <div class="table-container" *ngIf="leaves && leaves.length > 0">
+  <input
+    id="searchUser"
+    type="text"
+    pInputText
+    [(ngModel)]="searchLeaveText"
+    [ngModelOptions]="{ standalone: true }"
+    (input)="filterLeaves()"
+    placeholder="Search by Name"
+    class="search-input"
+  />
+    <div class="table-container" *ngIf="fileteredLeaves && fileteredLeaves.length > 0">
         <table class="leave-table">
           <thead>
             <tr>
@@ -24,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let leave of leaves; let i = index">
+            <tr *ngFor="let leave of fileteredLeaves; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ leave.username }}</td>
               <td>{{ leave.name}}</td>

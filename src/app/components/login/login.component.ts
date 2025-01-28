@@ -11,11 +11,14 @@ import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { PasswordModule } from 'primeng/password';
+import { LoadingSpinner } from "../../shared/loading-spinner/loading-spinner.component";
+import { ToastModule } from 'primeng/toast';
+
  
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, NgIf, ButtonModule, FloatLabelModule, PasswordModule, NgClass],
+  imports: [ReactiveFormsModule, NgIf, ButtonModule, FloatLabelModule, PasswordModule, NgClass, LoadingSpinner, ToastModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   standalone: true,
@@ -32,6 +35,7 @@ export class LoginComponent {
   }
 
   showPassword: boolean = false;
+  isLoading: boolean = false;
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -41,31 +45,59 @@ export class LoginComponent {
       if(this.form.valid){
       const username = this.form.value.username!;
       const password = this.form.value.password!;
-      console.log(username, password);
-      this.authService.login(username, password).subscribe({
-        next: (response : LoggedResponse): void => {
-          console.log(response.data["JWT Token"]);
-          localStorage.setItem('authToken', response.data["JWT Token"]);
-          const decodedToken:any = jwtDecode(response.data["JWT Token"]);
-          const role = decodedToken['role']; 
-          this.authService.role$.set(role);
-          this.authService.username$.set(decodedToken['username']);
-  
-          if (role === 'ROLE_ADMIN') {
-            this.router.navigate(['admin/home']);
-          } 
-          else if (role === 'ROLE_STUDENT') {
-            this.router.navigate(['student/home']);
-          }
-          else if (role === 'ROLE_FACULTY') {
-            this.router.navigate(['faculty/home']);
-          }
+      this.isLoading = true;
+      setTimeout( () => {
+        this.authService.login(username, password).subscribe({
+          next: (response : LoggedResponse): void => {
+            localStorage.setItem('authToken', response.data["JWT Token"]);
+            const decodedToken:any = jwtDecode(response.data["JWT Token"]);
+            const role = decodedToken['role']; 
+            this.authService.role$.set(role);
+            this.authService.username$.set(decodedToken['username']);
+            this.isLoading = false;
+            this.messageService.add({severity: 'success', summary: 'Success', detail: 'Logged in successfully'});
+            if (role === 'ROLE_ADMIN') {
+              this.router.navigate(['admin/home']);
+            } 
+            else if (role === 'ROLE_STUDENT') {
+              this.router.navigate(['student/home']);
+            }
+            else if (role === 'ROLE_FACULTY') {
+              this.router.navigate(['faculty/home']);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            this.isLoading = false;
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'Invalid Credentials'});
+          },
         },
-        error: (error: HttpErrorResponse) => {
-          this.messageService.add({severity:'error', summary: 'Error', detail: 'Invalid Credentials'});
-        },
-      },
-      );
+        );
+      }, 1000)
+      // this.authService.login(username, password).subscribe({
+      //   next: (response : LoggedResponse): void => {
+      //     localStorage.setItem('authToken', response.data["JWT Token"]);
+      //     const decodedToken:any = jwtDecode(response.data["JWT Token"]);
+      //     const role = decodedToken['role']; 
+      //     this.authService.role$.set(role);
+      //     this.authService.username$.set(decodedToken['username']);
+      //     this.isLoading = false;
+      //     this.messageService.add({severity: 'success', summary: 'Success', detail: 'Logged in successfully'});
+      //     if (role === 'ROLE_ADMIN') {
+      //       this.router.navigate(['admin/home']);
+      //     } 
+      //     else if (role === 'ROLE_STUDENT') {
+      //       this.router.navigate(['student/home']);
+      //     }
+      //     else if (role === 'ROLE_FACULTY') {
+      //       this.router.navigate(['faculty/home']);
+      //     }
+      //   },
+      //   error: (error: HttpErrorResponse) => {
+      //     this.isLoading = false;
+      //     this.messageService.add({severity:'error', summary: 'Error', detail: 'Invalid Credentials'});
+      //   },
+      // },
+      // );
       this.form.reset();
       }
     }

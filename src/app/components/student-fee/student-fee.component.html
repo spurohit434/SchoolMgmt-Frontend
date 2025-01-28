@@ -36,7 +36,7 @@
                         <td>{{StudentFee.deadline | date:'shortDate'}}</td>
                     }
                     @else{
-                        <td>Null</td>
+                        <td>Paid</td>
                     }
                 </tr>
                 <tr>
@@ -52,7 +52,7 @@
                   </div>
                   <div class="table-actions">
                     <p-toast/>
-                    <p-button type="button" (click)="payFee()">Payment</p-button>
+                    <p-button type="button" (click)="payFee()">Pay</p-button>
                   </div>
               </div>
         </table>

@@ -10,8 +10,11 @@
   </div>
 </header>
 
+<div *ngIf="isLoading">
+  <app-loading-spinner/>
+</div>
   
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid login-form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid login-form" *ngIf="!isLoading">
     <h2>Welcome to Campus Core!!</h2>
   
     <div class="p-field">
@@ -51,7 +54,7 @@
         Password is required.
       </small>
     </div>
-  
+    <p-toast/>
     <button
       type="submit"
       pButton
