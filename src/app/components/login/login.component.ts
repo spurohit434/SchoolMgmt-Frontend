@@ -57,7 +57,7 @@ export class LoginComponent {
             this.isLoading = false;
             this.messageService.add({severity: 'success', summary: 'Success', detail: 'Logged in successfully'});
             if (role === 'ROLE_ADMIN') {
-              this.router.navigate(['admin/home']);
+              this.router.navigate(['admin/home/users']);
             } 
             else if (role === 'ROLE_STUDENT') {
               this.router.navigate(['student/home']);
@@ -66,13 +66,14 @@ export class LoginComponent {
               this.router.navigate(['faculty/home']);
             }
           },
-          error: (error: HttpErrorResponse) => {
+          error: (error: LoggedResponse) => {
+            alert("Invalid credentials");
             this.isLoading = false;
             this.messageService.add({severity:'error', summary: 'Error', detail: 'Invalid Credentials'});
           },
         },
         );
-      }, 1000)
+      }, 100)
       // this.authService.login(username, password).subscribe({
       //   next: (response : LoggedResponse): void => {
       //     localStorage.setItem('authToken', response.data["JWT Token"]);

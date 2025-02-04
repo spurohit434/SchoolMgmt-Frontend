@@ -27,7 +27,6 @@ export class AuthService{
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
-    console.log("in service", username, password);
     return this.httpClient.post<LoginResponse>(`${BASE_URL}/authenticate`, {
       username: username,
       password: password,
@@ -58,10 +57,8 @@ export class AuthService{
     //       // this.user$.set(User);
     //       // this.role$.set(response.user?.role);
     //     })
-
     //   )
     //   .subscribe();
     // }
-
 }
 

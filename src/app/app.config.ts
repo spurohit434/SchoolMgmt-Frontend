@@ -11,7 +11,7 @@ import Vega from '@primeng/themes/lara'
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), 
-    provideHttpClient(), 
+    provideHttpClient(),
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideHttpClient(withInterceptorsFromDi(),),
     {

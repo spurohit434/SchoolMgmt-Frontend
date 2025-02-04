@@ -82,7 +82,6 @@ export class UsersComponent implements OnInit {
 
   getAllUsers() {
     this.loading = true;
-    console.log(this.page, this.size);
     this.userService.getAllUsers1(this.page, this.size).subscribe({
       next: (response: LoginResponse) => {
         this.users = response.data.content; // Ensure you are assigning an array to this.users
@@ -90,7 +89,6 @@ export class UsersComponent implements OnInit {
         this.filteredUsers = [...this.users];
       },
       error: (error: LoginResponse) => {
-        console.error('Error fetching users:', error);
         this.loading = false;
       }
     });
@@ -118,7 +116,6 @@ export class UsersComponent implements OnInit {
         },
       error: (error: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'User Can Not be Deleted' });
-        console.error('Error deleting user:', error);
       }
     });
     this.getAllUsers();
@@ -145,7 +142,6 @@ export class UsersComponent implements OnInit {
         contactNumber: formData.contactNumber ?? '',
         mentorOf: formData.mentorOf ?? 0  // Fallback to 0 if null or undefined
       };
-      console.log(userDetails);
       this.userService.addUser(userDetails).subscribe( 
         (data) => {
           this.messageService.add({ severity: 'Success', summary: 'Success', detail: 'User Added Successfully' });
@@ -157,7 +153,6 @@ export class UsersComponent implements OnInit {
       this.closeAddUserModal();  // Close the modal after submission
     } else {
       this.messageService.add({ severity: 'Failure', summary: 'Failure', detail: 'Form Invalid' });
-      console.log('Form is invalid');
     }
   }
 
